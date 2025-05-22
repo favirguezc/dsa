@@ -151,4 +151,14 @@ public class Rotate90Test {
         Rotate90.rotate(matrix);
         assertArrayEquals(expected, matrix);
     }
+
+    @Test
+    void testJaggedMatrixThrowsError() {
+        int[][] matrix = {
+                { 1, 2, 3 },
+                { 4, 5 },
+                { 6, 7, 8, 9 }
+        };
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> Rotate90.rotate(matrix));
+    }
 }
