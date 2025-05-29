@@ -19,7 +19,6 @@ public class SingleLinkedList<T> extends AbstractLinkedList<T, SingleLinkedNode<
 
     @Override
     public void insert(int index, T data) {
-        validateData(data);
         validateIndex(index, 0, size);
         SingleLinkedNode<T> newNode = new SingleLinkedNode<>(data);
         if (index == 0) {

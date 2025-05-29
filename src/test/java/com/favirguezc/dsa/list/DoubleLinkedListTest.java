@@ -87,12 +87,6 @@ public class DoubleLinkedListTest {
     }
 
     @Test
-    void testInsertNull() {
-        assertThrows(IllegalArgumentException.class, () -> new DoubleLinkedList<>().insert(null));
-
-    }
-
-    @Test
     void testInsertOutOfBounds() {
         DoubleLinkedList<Integer> list = new DoubleLinkedList<>(1, 2, 3, 4, 5);
         assertThrows(IndexOutOfBoundsException.class, () -> list.insert(-1, 0));
@@ -204,11 +198,6 @@ public class DoubleLinkedListTest {
         assertEquals(2, list.search(3));
         assertEquals(4, list.search(5));
         assertEquals(-1, list.search(6));
-    }
-
-    @Test
-    void testSearchNull() {
-        assertThrows(IllegalArgumentException.class, () -> new SingleLinkedList<>().search(null));
     }
 
     @Test

@@ -26,7 +26,6 @@ public class DoubleLinkedList<T> extends AbstractLinkedList<T, DoubleLinkedNode<
 
     @Override
     public void insert(int index, T data) {
-        validateData(data);
         validateIndex(index, 0, size);
         DoubleLinkedNode<T> newNode = new DoubleLinkedNode<>(data);
         if (index == 0) {

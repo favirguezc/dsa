@@ -43,7 +43,6 @@ public abstract class AbstractLinkedList<T, N extends Node<T>> implements List<T
 
     @Override
     public int search(T data) {
-        validateData(data);
         N current = head;
         for (int i = 0; i < size; i++) {
             if (current.getData().equals(data)) {
@@ -84,12 +83,6 @@ public abstract class AbstractLinkedList<T, N extends Node<T>> implements List<T
     }
 
     protected abstract N reverseRecursive(N current);
-
-    protected void validateData(T data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Data cannot be null");
-        }
-    }
 
     protected void validateIndex(int index, int min, int max) {
         if (index < min || index > max) {
