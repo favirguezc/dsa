@@ -1,18 +1,20 @@
 package com.favirguezc.dsa.list;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class SigleLinkedListTest {
+public class SingleLinkedListTest {
 
     @Test
     void testClear() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.clear();
         assertEquals(0, list.getSize());
+        assertTrue(list.isEmpty());
     }
 
     @Test
@@ -42,8 +44,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testGetOutOfBounds() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(5));
     }
@@ -59,8 +60,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testInsertHead() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.insert(0, 0);
         assertEquals(6, list.getSize());
         for (int i = 0; i < 6; i++) {
@@ -70,8 +70,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testInsertTail() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.insert(5, 6);
         assertEquals(6, list.getSize());
         for (int i = 0; i < 6; i++) {
@@ -81,8 +80,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testInsertMiddle() {
-        Integer[] data = { 1, 2, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 4, 5);
         list.insert(2, 3);
         assertEquals(5, list.getSize());
         for (int i = 0; i < 5; i++) {
@@ -91,17 +89,27 @@ public class SigleLinkedListTest {
     }
 
     @Test
+    void testInsertNull() {
+        assertThrows(IllegalArgumentException.class, () -> new SingleLinkedList<>().insert(null));
+
+    }
+
+    @Test
     void testInsertOutOfBounds() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         assertThrows(IndexOutOfBoundsException.class, () -> list.insert(-1, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> list.insert(6, 6));
     }
 
     @Test
+    void testIsEmpty() {
+        assertTrue(new SingleLinkedList<>().isEmpty());
+        assertFalse(new SingleLinkedList<>(1, 2, 3, 4, 5).isEmpty());
+    }
+
+    @Test
     void testRemoveHead() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         Integer removed = list.remove(0);
         assertEquals(1, removed);
         assertEquals(4, list.getSize());
@@ -112,8 +120,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testRemoveTail() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         Integer removed = list.remove(4);
         assertEquals(5, removed);
         assertEquals(4, list.getSize());
@@ -123,9 +130,16 @@ public class SigleLinkedListTest {
     }
 
     @Test
+    void testRemoveUnique() {
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1);
+        Integer removed = list.remove(0);
+        assertEquals(1, removed);
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
     void testRemoveMiddle() {
-        Integer[] data = { 1, 2, 3, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 3, 4, 5);
         Integer removed = list.remove(2);
         assertEquals(3, removed);
         assertEquals(5, list.getSize());
@@ -136,16 +150,14 @@ public class SigleLinkedListTest {
 
     @Test
     void testRemoveOutOfBounds() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(5));
     }
 
     @Test
     void testReverse() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.reverse();
         assertEquals(5, list.getSize());
         for (int i = 0; i < 5; i++) {
@@ -155,8 +167,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testDoubleReverse() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.reverse();
         list.reverse();
         assertEquals(5, list.getSize());
@@ -167,8 +178,7 @@ public class SigleLinkedListTest {
 
     @Test
     void testReverseRecursive() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.reverseRecursive();
         assertEquals(5, list.getSize());
         for (int i = 0; i < 5; i++) {
@@ -178,13 +188,32 @@ public class SigleLinkedListTest {
 
     @Test
     void testDoubleReverseRecursive() {
-        Integer[] data = { 1, 2, 3, 4, 5 };
-        SingleLinkedList<Integer> list = new SingleLinkedList<>(data);
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
         list.reverseRecursive();
         list.reverseRecursive();
         assertEquals(5, list.getSize());
         for (int i = 0; i < 5; i++) {
             assertEquals(i + 1, list.get(i));
         }
+    }
+
+    @Test
+    void testSearch() {
+        SingleLinkedList<Integer> list = new SingleLinkedList<>(1, 2, 3, 4, 5);
+        assertEquals(0, list.search(1));
+        assertEquals(2, list.search(3));
+        assertEquals(4, list.search(5));
+        assertEquals(-1, list.search(6));
+    }
+
+    @Test
+    void testSearchNull() {
+        assertThrows(IllegalArgumentException.class, () -> new SingleLinkedList<>().search(null));
+    }
+
+    @Test
+    void testToString() {
+        assertEquals(SingleLinkedList.EMPTY_LIST_MESSAGE, new SingleLinkedList<>().toString());
+        assertEquals("1 -> 2 -> 3 -> 4 -> 5", new SingleLinkedList<>(1, 2, 3, 4, 5).toString());
     }
 }

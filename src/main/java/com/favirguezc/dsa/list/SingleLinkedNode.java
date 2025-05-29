@@ -1,12 +1,14 @@
 package com.favirguezc.dsa.list;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class SingleLinkedNode<T> {
-
-    @NonNull
-    private T data;
+@Getter
+@Setter
+public class SingleLinkedNode<T> extends Node<T> {
     private SingleLinkedNode<T> next;
+
+    public SingleLinkedNode(T data) {
+        super(data);
+    }
 }

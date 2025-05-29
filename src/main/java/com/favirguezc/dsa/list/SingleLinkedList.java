@@ -1,41 +1,25 @@
 package com.favirguezc.dsa.list;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class SingleLinkedList<T> {
+public class SingleLinkedList<T> extends AbstractLinkedList<T, SingleLinkedNode<T>> {
 
-    private SingleLinkedNode<T> head;
-    private SingleLinkedNode<T> tail;
-    @Getter
-    private int size;
-
-    public SingleLinkedList(T[] data) {
-        for (T item : data) {
-            insert(item);
-        }
+    @SuppressWarnings("unchecked")
+    public SingleLinkedList(T... data) {
+        super(data);
     }
 
+    @Override
     public void clear() {
         head = null;
         tail = null;
         size = 0;
     }
 
-    public void insert(T data) {
-        SingleLinkedNode<T> newNode = new SingleLinkedNode<>(data);
-        if (size == 0) {
-            head = newNode;
-            tail = newNode;
-        } else {
-            tail.setNext(newNode);
-            tail = newNode;
-        }
-        size++;
-    }
-
+    @Override
     public void insert(int index, T data) {
+        validateData(data);
         validateIndex(index, 0, size);
         SingleLinkedNode<T> newNode = new SingleLinkedNode<>(data);
         if (index == 0) {
@@ -55,16 +39,16 @@ public class SingleLinkedList<T> {
         size++;
     }
 
-    public T get(int index) {
-        return getNode(index).getData();
-    }
-
+    @Override
     public T remove(int index) {
         validateIndex(index, 0, size - 1);
         T data;
         if (index == 0) {
             data = head.getData();
             head = head.getNext();
+            if (size == 1) {
+                tail = null;
+            }
         } else {
             SingleLinkedNode<T> previous = getNode(index - 1);
             data = previous.getNext().getData();
@@ -77,6 +61,7 @@ public class SingleLinkedList<T> {
         return data;
     }
 
+    @Override
     public void reverse() {
         SingleLinkedNode<T> previous = null;
         SingleLinkedNode<T> current = head;
@@ -90,20 +75,8 @@ public class SingleLinkedList<T> {
         head = previous;
     }
 
-    public void reverseRecursive() {
-        reverseRecursive(head);
-    }
-
-    private SingleLinkedNode<T> getNode(int index) {
-        validateIndex(index, 0, size - 1);
-        SingleLinkedNode<T> current = head;
-        for (int i = 0; i < index; i++) {
-            current = current.getNext();
-        }
-        return current;
-    }
-
-    private SingleLinkedNode<T> reverseRecursive(SingleLinkedNode<T> current) {
+    @Override
+    protected SingleLinkedNode<T> reverseRecursive(SingleLinkedNode<T> current) {
         if (current.getNext() == null) {
             head = current;
             return head;
@@ -114,11 +87,5 @@ public class SingleLinkedList<T> {
         next.setNext(current);
         tail = current;
         return newHead;
-    }
-
-    private void validateIndex(int index, int min, int max) {
-        if (index < min || index > max) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
     }
 }
