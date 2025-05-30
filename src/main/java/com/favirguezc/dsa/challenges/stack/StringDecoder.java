@@ -5,34 +5,31 @@ import com.favirguezc.dsa.ds.stack.LinkedListStack;
 public class StringDecoder {
 
     public static String decode(String input) {
-        String output = input;
+        StringBuilder sb = new StringBuilder();
         StringBuilder numberSb = new StringBuilder();
-        LinkedListStack<Integer> stack = new LinkedListStack<>();
         LinkedListStack<String> numberStack = new LinkedListStack<>();
-        for (int i = 0; i < output.length(); i++) {
-            char c = output.charAt(i);
+        LinkedListStack<String> stringStack = new LinkedListStack<>();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
             if (c >= 48 && c <= 57) {
                 numberSb.append(c);
             } else if (c == '[') {
-                stack.push(i);
                 numberStack.push(numberSb.toString());
                 numberSb = new StringBuilder();
+                stringStack.push(sb.toString());
+                sb = new StringBuilder();
             } else if (c == ']') {
-                int start = stack.pop() + 1;
-                String number = numberStack.pop();
-                int n = Integer.parseInt(number);
-                String r = output.substring(start, i);
-                StringBuilder sb = new StringBuilder();
-                sb.append(output.substring(0, start - 1 - number.length()));
+                int n = Integer.parseInt(numberStack.pop());
+                StringBuilder temp = new StringBuilder(stringStack.pop());
                 for (int j = 0; j < n; j++) {
-                    sb.append(r);
+                    temp.append(sb.toString());
                 }
-                sb.append(output.substring(i + 1, output.length()));
-                output = sb.toString();
-                i -= number.length() + 2;
+                sb = temp;
+            } else {
+                sb.append(c);
             }
         }
-        return output;
+        return sb.toString();
     }
 
 }
